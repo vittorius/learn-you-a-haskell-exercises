@@ -13,7 +13,11 @@ power x n
 --	     fib 10 = [55,34,21,13,8,5,3,2,1,1,0]
 -- try to use a where clause
 fib :: (Num a, Eq a) => a -> [a]
-fib x = undefined
+fib 0 = [0]
+fib 1 = [1, 0]
+fib n = (x + y) : prev
+  where prev@(x:y:zs) = fib (n - 1)
+
 
 -- This is not recursive, but have a go anyway.
 -- Create a function which takes two parameters, a number and a step
