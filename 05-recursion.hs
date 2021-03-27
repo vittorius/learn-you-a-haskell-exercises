@@ -26,7 +26,7 @@ fib n = (x + y) : prev
 --			    stepReverseSign -3 1 = 4
 --			    stepReverseSign 1 2 = -3
 stepReverseSign :: (Fractional a, Ord a) => a -> a -> a
-stepReverseSign a = undefined
+stepReverseSign a step = (abs a + step) * (negate $ signum a)
 
 {- Lets calculate pi.
  - The Leibniz formula for pi (http://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80)
@@ -60,8 +60,10 @@ stepReverseSign a = undefined
  -}
 
 piCalc :: (Fractional a, Integral b, Ord a) => a -> (a, b)
-piCalc a = undefined
+piCalc tol = piCalc' 1 0.0 tol 0
 
 piCalc' :: (Ord a, Fractional a, Integral b) => a -> a -> a -> b -> (a, b)
-piCalc' w x y z = undefined
-
+piCalc' den piPrev tol calls
+  | abs term < tol = (piPrev, calls)
+  | otherwise      = piCalc' (stepReverseSign den 2) (piPrev + term) tol (calls + 1)
+  where term = 4 / den
